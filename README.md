@@ -110,7 +110,7 @@ array(2) {
             ["主キー"]=>
             string(36) "DC1B6557-B772-43BA-91F5-D9BBEC173A39"
             ["メール"]=>
-            string(23) "nishino@seagullmark.com"
+            string(23) "nishino@hoge.com"
             ["パスワード"]=>
             string(60) "$2y$10$yWiiNYYIlvRLBXrP.iT/bODeCj0FWiUeLrcJtOv1PmUSbaRm3wWyG"
             ["氏名"]=>
@@ -225,3 +225,5 @@ array(2) {
   }
 }
 ```
+ret 配列は FileMaker Data API が返却するものが格納されます。info 配列はcURL接続時の情報で、HTTPステータスコードが取得できます。  
+
