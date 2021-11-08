@@ -49,4 +49,4 @@ $fieldData = $result['ret']['response']['data'][0]['fieldData'];
 </div>
 
 <a href="logout.php">ログアウト</a>
-<a href="pwd_edit.php">パスワード修正</a>
+<a href="pwd_edit.php">パスワード変更</a>

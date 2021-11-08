@@ -127,7 +127,7 @@ $modId = $result['ret']['response']['data'][0]['modId'];
     <input type="hidden" name="modId" value="<?php print $modId; ?>">
 
     <a href="user.php">キャンセル</a>
-    <input type="submit" id="edit" name="edit" value="修正">
+    <input type="submit" id="edit" name="edit" value="変更">
 
 </form>
 </div>
