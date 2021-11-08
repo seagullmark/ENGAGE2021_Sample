@@ -41,7 +41,7 @@ const API_VERSION = 'vLatest'; // FileMaker Data API のバージョン
 class myFm
 {
 ```
-データベースへのアクセス情報を記載します。
+データベースへのアクセス情報を記載します。webユーザー（アカウント）には fmrest 拡張アクセス権(FileMaker Data API でのアクセス)が設定されています。
 
 ```
 public function curl($url, $method, $data = ''){
