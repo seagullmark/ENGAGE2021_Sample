@@ -77,4 +77,151 @@ public function curl($url, $method, $data = ''){
     return $result;
 }
 ```
-データベースにはPHPのcURL関数を利用して接続します。
+データベースにはPHPのcURL関数を利用して接続します。  
+上記載の関数は以下の内容(ログイン成功例)を返却します。
+
+```
+array(2) {
+  ["ret"]=>
+  array(2) {
+    ["response"]=>
+    array(2) {
+      ["dataInfo"]=>
+      array(6) {
+        ["database"]=>
+        string(10) "engage2021"
+        ["layout"]=>
+        string(5) "users"
+        ["table"]=>
+        string(5) "users"
+        ["totalRecordCount"]=>
+        int(1)
+        ["foundCount"]=>
+        int(1)
+        ["returnedCount"]=>
+        int(1)
+      }
+      ["data"]=>
+      array(1) {
+        [0]=>
+        array(4) {
+          ["fieldData"]=>
+          array(8) {
+            ["主キー"]=>
+            string(36) "DC1B6557-B772-43BA-91F5-D9BBEC173A39"
+            ["メール"]=>
+            string(23) "nishino@seagullmark.com"
+            ["パスワード"]=>
+            string(60) "$2y$10$yWiiNYYIlvRLBXrP.iT/bODeCj0FWiUeLrcJtOv1PmUSbaRm3wWyG"
+            ["氏名"]=>
+            string(15) "西野マサキ"
+            ["作成情報タイムスタンプ"]=>
+            string(19) "11/08/2021 11:09:08"
+            ["作成者"]=>
+            string(3) "web"
+            ["修正情報タイムスタンプ"]=>
+            string(19) "11/08/2021 11:09:08"
+            ["修正者"]=>
+            string(3) "web"
+          }
+          ["portalData"]=>
+          array(0) {
+          }
+          ["recordId"]=>
+          string(1) "7"
+          ["modId"]=>
+          string(1) "0"
+        }
+      }
+    }
+    ["messages"]=>
+    array(1) {
+      [0]=>
+      array(2) {
+        ["code"]=>
+        string(1) "0"
+        ["message"]=>
+        string(2) "OK"
+      }
+    }
+  }
+  ["info"]=>
+  array(37) {
+    ["url"]=>
+    string(78) "https://192.168.3.16/fmi/data/vLatest/databases/engage2021/layouts/users/_find"
+    ["content_type"]=>
+    string(31) "application/json; charset=utf-8"
+    ["http_code"]=>
+    int(200)
+    ["header_size"]=>
+    int(322)
+    ["request_size"]=>
+    int(235)
+    ["filetime"]=>
+    int(-1)
+    ["ssl_verify_result"]=>
+    int(19)
+    ["redirect_count"]=>
+    int(0)
+    ["total_time"]=>
+    float(0.205378)
+    ["namelookup_time"]=>
+    float(2.2E-5)
+    ["connect_time"]=>
+    float(0.004455)
+    ["pretransfer_time"]=>
+    float(0.039249)
+    ["size_upload"]=>
+    float(83)
+    ["size_download"]=>
+    float(596)
+    ["speed_download"]=>
+    float(2907)
+    ["speed_upload"]=>
+    float(404)
+    ["download_content_length"]=>
+    float(596)
+    ["upload_content_length"]=>
+    float(83)
+    ["starttransfer_time"]=>
+    float(0.039283)
+    ["redirect_time"]=>
+    float(0)
+    ["redirect_url"]=>
+    string(0) ""
+    ["primary_ip"]=>
+    string(12) "192.168.3.16"
+    ["certinfo"]=>
+    array(0) {
+    }
+    ["primary_port"]=>
+    int(443)
+    ["local_ip"]=>
+    string(10) "172.18.0.3"
+    ["local_port"]=>
+    int(45456)
+    ["http_version"]=>
+    int(3)
+    ["protocol"]=>
+    int(2)
+    ["ssl_verifyresult"]=>
+    int(0)
+    ["scheme"]=>
+    string(5) "HTTPS"
+    ["appconnect_time_us"]=>
+    int(39112)
+    ["connect_time_us"]=>
+    int(4455)
+    ["namelookup_time_us"]=>
+    int(22)
+    ["pretransfer_time_us"]=>
+    int(39249)
+    ["redirect_time_us"]=>
+    int(0)
+    ["starttransfer_time_us"]=>
+    int(39283)
+    ["total_time_us"]=>
+    int(205378)
+  }
+}
+```
