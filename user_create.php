@@ -18,7 +18,7 @@ if(isset($_POST['create'])){
         $errors['mail'] = 'メールアドレスの形式ではありません。';
     }
     if(strcmp($_POST['pwd'], $_POST['pwd2']) !== 0){
-        $errors['pwd2'] = '新しいパスワードが一致しません。';
+        $errors['pwd2'] = '確認パスワードが一致しません。';
     }
     if(!preg_match('/\A[a-z\d]{8,}+\z/i', $_POST['pwd'])){
         $errors['pwd'] = 'パスワードは半角英数字8文字以上です。';
@@ -69,7 +69,7 @@ if(isset($_POST['create'])){
 <h1>新規会員登録画面</h1>
 
 <div class="form">
-<form id="userCreateForm" name="userCreateForm" action="" method="POST">
+<form id="userCreateForm" name="userCreateForm" action="" method="POST" autocomplete="off">
     <?php
         foreach($errors as $error){
             print "<p class='error'>";
