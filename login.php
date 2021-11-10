@@ -22,15 +22,12 @@ if(isset($_POST['login'])){
     
     if(!empty($_POST['mail']) && !empty($_POST['password'])){
 
-        $mail = $_POST['mail'];
-        $pwd = $_POST['password'];
-
         $myFm = new myFm;
 
         // REQUEST 生成
         $query = array();
         $query[] = array(
-            'メール' => '==' . $mail
+            'メール' => '==' . $_POST['mail']
         );
         $data = array(
             'query' => $query,
@@ -47,7 +44,7 @@ if(isset($_POST['login'])){
         if($err === '0'){
 
             $fieldData = $result['ret']['response']['data'][0]['fieldData'];
-            if(password_verify($pwd, $fieldData['パスワード'])){ 
+            if(password_verify($_POST['password'], $fieldData['パスワード'])){ 
                 $_SESSION['id'] = $fieldData['主キー'];
                 $_SESSION['message'] = 'ログインしました。';
                 header('Location: user.php');
@@ -64,7 +61,7 @@ if(isset($_POST['login'])){
 <h1>ログイン画面</h1>
 
 <div class="form">
-<form id="loginForm" name="loginForm" action="" method="POST">
+<form id="loginForm" name="loginForm" action="" method="POST" autocomplete="off">
     <?php
         foreach($errors as $error){
             print "<p class='error'>";

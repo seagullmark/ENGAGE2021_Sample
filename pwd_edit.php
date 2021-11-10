@@ -93,7 +93,7 @@ $modId = $result['ret']['response']['data'][0]['modId'];
 <h1>パスワード修正画面</h1>
 
 <div class="form">
-<form id="pwdEditForm" name="pwdEditForm" action="" method="POST">
+<form id="pwdEditForm" name="pwdEditForm" action="" method="POST" autocomplete="off">
     <?php
         foreach($errors as $error){
             print "<p class='error'>";
