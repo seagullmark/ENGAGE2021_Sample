@@ -4,13 +4,13 @@ FileMaker Data API を利用したシンプルなPHPアプリケーションサ�
 ※注意  
 CSRFトークン、例外処理などは組み込んでいません。ご自身で実装してみてください。
 
-■機能
+## ■機能
 - 会員登録
 - ログイン
 - ログアウト
 - パスワード変更
 
-■ファイル構成
+## ■ファイル構成
 ```
 Sample/
   ├ engage2021.fmp12
@@ -21,12 +21,17 @@ Sample/
   ├ user_create.php
   └ user.php
  ```
- ■engage2021.fmp12  
+## ■engage2021.fmp12  
  完全アクセス  
 　　アカウント名：Admin  
 　　パスワード：demo  
 
-■myFm.class.php  
+users::メール　はユニーク設定  
+users::パスワード　はPHPでハッシュ化した文字列を保存します。
+
+
+
+## ■myFm.class.php  
 データベースへの接続を処理するクラスファイルです。
 ```
 <?php
@@ -226,4 +231,94 @@ array(2) {
 }
 ```
 ret 配列は FileMaker Data API が返却するものが格納されます。info 配列はcURL接続時の情報で、HTTPステータスコードが取得できます。  
+
+```
+function __construct(){
+
+  $this->options = array();
+  $this->options['ssl_verify'] = API_SSL_VERIFY;
+
+  $authorization = 'Basic ' . base64_encode(DB_USER . ':' . DB_PWD);
+  $this->httpHeader = array(
+    'Authorization: ' . $authorization,
+    'Content-Type: application/json'
+  );
+
+  result = $this->fmLogin();
+  $this->token = $result['ret']['response']['token'];
+}
+
+function __destruct(){
+        
+  $this->fmLogOut();
+}
+```
+このクラスをインスタンス化 $myFm = new myFm; した時に、データベースへログインし、sessionToken をメンバ変数にセットします。
+```
+$this->token = $result['ret']['response']['token'];
+```
+このオブジェクトが破棄される時にデータベースからログアウトします。
+
+## ■login.php  
+ログインに成功すると、セッション変数「id」のログインしたユーザーの主キーを保存します。  
+```
+$_SESSION['id'] = $fieldData['主キー'];
+```
+
+このセッション変数「id」に値が設定されていれば、現在ログインしているとみなし、ユーザーページ user.php にリダイレクトします。
+
+```
+if(isset($_SESSION['id'])){
+    header('Location: user.php');
+    exit;
+}
+```
+
+## ■logout.php
+```
+session_destroy();
+```
+セッションを破棄し、ログインページにリダイレクトします。
+
+## ■user.php  
+
+セッション変数「id」に格納した主キーからユーザー情報を取得表示します。
+```
+// REQUEST 生成
+$query = array();
+$query[] = array(
+    '主キー' => '==' . $id
+);
+$data = array(
+    'query' => $query,
+    'offset' => 1,
+    'limit' => 1
+);
+$data = json_encode($data, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP);
+//
+```
+上記はリクエスト用のJSONを生成しています。
+
+## ■user_create.php  
+
+```
+}else if($err === '504'){    
+            
+  $errors['user'] = '入力されたメールアドレスはすでに登録されています。';
+
+```
+FileMaker のエラーコード 504  
+
+フィールドの値が入力値の制限オプションで要求されているように固有の値になっていません  
+
+で重複登録を制御しています。  
+
+
+## ■pwd_edit.php  
+```
+$data['fieldData'] = array(
+  'パスワード' => password_hash($_POST['new'], PASSWORD_BCRYPT)
+);
+```
+パスワードは、PHP の password_hash 関数を利用してハッシュ化しデータベースに保存しています。
 
