@@ -2,7 +2,7 @@
 include_once('myFm.class.php');
 session_start();
 
-//エラーメッセージの初期化
+// エラーメッセージの初期化
 $errors = array();
 
 // 登録ボタンが押されたら

@@ -33,7 +33,7 @@ users::パスワード　はPHPでハッシュ化した文字列を保存しま�
 
 ## ■myFm.class.php  
 データベースへの接続を処理するクラスファイルです。
-```
+```PHP
 <?php
 
 const DB_USER = 'web'; // データベースユーザ名
@@ -48,7 +48,7 @@ class myFm
 ```
 データベースへのアクセス情報を記載します。webユーザー（アカウント）には fmrest 拡張アクセス権(FileMaker Data API でのアクセス)が設定されています。
 
-```
+```PHP
 public function curl($url, $method, $data = ''){
 
     $conn = curl_init();
@@ -70,7 +70,6 @@ public function curl($url, $method, $data = ''){
 
     $errno = curl_errno($conn);
     $error = curl_error($conn);
-    // echo $errno.' - '.$error;
 
     curl_close($conn);
 
@@ -85,7 +84,7 @@ public function curl($url, $method, $data = ''){
 データベースにはPHPのcURL関数を利用して接続します。  
 上記載の関数は以下の内容(ログイン成功例)を返却します。
 
-```
+```PHP
 array(2) {
   ["ret"]=>
   array(2) {
@@ -232,19 +231,16 @@ array(2) {
 ```
 ret 配列は FileMaker Data API が返却するものが格納されます。info 配列はcURL接続時の情報で、HTTPステータスコードが取得できます。  
 
-```
+```PHP
 function __construct(){
 
   $this->options = array();
   $this->options['ssl_verify'] = API_SSL_VERIFY;
 
   $authorization = 'Basic ' . base64_encode(DB_USER . ':' . DB_PWD);
-  $this->httpHeader = array(
-    'Authorization: ' . $authorization,
-    'Content-Type: application/json'
-  );
+  $this->setHeader($authorization);
 
-  result = $this->fmLogin();
+  $result = $this->fmLogin();
   $this->token = $result['ret']['response']['token'];
 }
 
@@ -254,20 +250,20 @@ function __destruct(){
 }
 ```
 このクラスをインスタンス化 $myFm = new myFm; した時に、データベースへログインし、sessionToken をメンバ変数にセットします。
-```
+```PHP
 $this->token = $result['ret']['response']['token'];
 ```
 このオブジェクトが破棄される時にデータベースからログアウトします。
 
 ## ■login.php  
 ログインに成功すると、セッション変数「id」のログインしたユーザーの主キーを保存します。  
-```
+```PHP
 $_SESSION['id'] = $fieldData['主キー'];
 ```
 
 このセッション変数「id」に値が設定されていれば、現在ログインしているとみなし、ユーザーページ user.php にリダイレクトします。
 
-```
+```PHP
 if(isset($_SESSION['id'])){
     header('Location: user.php');
     exit;
@@ -275,7 +271,7 @@ if(isset($_SESSION['id'])){
 ```
 
 ## ■logout.php
-```
+```PHP
 session_destroy();
 ```
 セッションを破棄し、ログインページにリダイレクトします。
@@ -283,7 +279,7 @@ session_destroy();
 ## ■user.php  
 
 セッション変数「id」に格納した主キーからユーザー情報を取得表示します。
-```
+```PHP
 // REQUEST 生成
 $query = array();
 $query[] = array(
@@ -301,7 +297,7 @@ $data = json_encode($data, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP
 
 ## ■user_create.php  
 
-```
+```PHP
 }else if($err === '504'){    
             
   $errors['user'] = '入力されたメールアドレスはすでに登録されています。';
@@ -309,13 +305,13 @@ $data = json_encode($data, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP
 ```
 FileMaker のエラーコード 504  
 
-フィールドの値が入力値の制限オプションで要求されているように固有の値になっていません  
+「フィールドの値が入力値の制限オプションで要求されているように固有の値になっていません」  
 
 で重複登録を制御しています。  
 
 
 ## ■pwd_edit.php  
-```
+```PHP
 $data['fieldData'] = array(
   'パスワード' => password_hash($_POST['new'], PASSWORD_BCRYPT)
 );

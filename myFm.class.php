@@ -19,10 +19,7 @@ class myFm
         $this->options['ssl_verify'] = API_SSL_VERIFY;
 
         $authorization = 'Basic ' . base64_encode(DB_USER . ':' . DB_PWD);
-        $this->httpHeader = array(
-            'Authorization: ' . $authorization,
-            'Content-Type: application/json'
-        );
+        $this->setHeader($authorization);
 
         $result = $this->fmLogin();
         $this->token = $result['ret']['response']['token'];
@@ -54,7 +51,6 @@ class myFm
 
         $errno = curl_errno($conn);
         $error = curl_error($conn);
-        // echo $errno.' - '.$error;
 
         curl_close($conn);
 
@@ -65,6 +61,25 @@ class myFm
 
         return $result;
     }
+
+    public function setHeader($authorization = ''){ 
+
+        if(!empty($authorization)){
+
+            $this->httpHeader = array(
+                'Authorization: ' . $authorization,
+                'Content-Type: application/json'
+            );
+
+        }else{
+
+            $this->httpHeader = array(
+                'Content-Type: application/json'
+            );
+        }
+
+        return;
+    }    
 
     public function fmLogin(){
 
@@ -79,9 +94,7 @@ class myFm
 
         //fmi/data/{version}/databases/{database}/sessions/{sessionToken}
         $sUrl = 'https://' . DB_HOST . '/fmi/data/' . API_VERSION . '/databases/' . DB_NAME . '/sessions/' . $this->token;
-        $this->httpHeader = array(
-            'Content-Type: application/json'
-        );
+        $this->setHeader();
         $result = $this->curl($sUrl, 'DELETE', '');
 
         return $result;
@@ -92,10 +105,7 @@ class myFm
         //fmi/data/{version}/databases/{database}/layouts/{layout}/_find
         $sUrl = 'https://' . DB_HOST . '/fmi/data/' . API_VERSION . '/databases/' . DB_NAME . '/layouts/' . $layout . '/_find';
         $authorization = 'Bearer ' . $this->token;
-        $this->httpHeader = array(
-            'Authorization: ' . $authorization,
-            'Content-Type: application/json'
-        );
+        $this->setHeader($authorization);
         $result = $this->curl($sUrl, 'POST', $data);
         
         return $result;
@@ -106,10 +116,7 @@ class myFm
         //fmi/data/{version}/databases/{database}/layouts/{layout}/records/{recordId}
         $sUrl = 'https://' . DB_HOST . '/fmi/data/' . API_VERSION . '/databases/' . DB_NAME . '/layouts/' . $layout . '/records/' . $recordId;
         $authorization = 'Bearer ' . $this->token;
-        $this->httpHeader = array(
-            'Authorization: ' . $authorization,
-            'Content-Type: application/json'
-        );
+        $this->setHeader($authorization);
         $result = $this->curl($sUrl, 'GET', '');
         
         return $result;
@@ -120,10 +127,7 @@ class myFm
         //fmi/data/{version}/databases/{database}/layouts/{layout}/records/{recordId}
         $sUrl = 'https://' . DB_HOST . '/fmi/data/' . API_VERSION . '/databases/' . DB_NAME . '/layouts/' . $layout . '/records/' . $recordId;
         $authorization = 'Bearer ' . $this->token;
-        $this->httpHeader = array(
-            'Authorization: ' . $authorization,
-            'Content-Type: application/json'
-        );
+        $this->setHeader($authorization);
         $result = $this->curl($sUrl, 'PATCH', $data);
         
         return $result;
@@ -134,10 +138,7 @@ class myFm
         //fmi/data/{version}/databases/{database}/layouts/{layout}/records
         $sUrl = 'https://' . DB_HOST . '/fmi/data/' . API_VERSION . '/databases/' . DB_NAME . '/layouts/' . $layout . '/records';
         $authorization = 'Bearer ' . $this->token;
-        $this->httpHeader = array(
-            'Authorization: ' . $authorization,
-            'Content-Type: application/json'
-        );
+        $this->setHeader($authorization);
         $result = $this->curl($sUrl, 'POST', $data);
         
         return $result;
