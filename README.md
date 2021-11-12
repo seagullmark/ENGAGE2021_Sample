@@ -68,9 +68,6 @@ public function curl($url, $method, $data = ''){
     $ret = curl_exec($conn);
     $info = curl_getinfo($conn);
 
-    $errno = curl_errno($conn);
-    $error = curl_error($conn);
-
     curl_close($conn);
 
     $result = array(
